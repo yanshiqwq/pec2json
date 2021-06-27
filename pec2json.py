@@ -82,7 +82,7 @@ for line in f.readlines():
 		event_count += 1
 	if line[0: 1] == "n":
 		note_info = 1
-		line_id = line_group[1]
+		line_id = str(int(float(line_group[1])))
 		start = float(line_group[2]) * 72
 		line_group = line[1:].split( )
 		if line_group[0] == "1":
@@ -135,10 +135,12 @@ for line in f.readlines():
 			relativex = float(line_group[2]) / 1024
 		note_count += 1
 f.close()
-for line_count,event in events.items():
+for eventzip,notezip in zip(events.items(),notes.items()):
+	line_count,event = eventzip
+	note_count,note = notezip
 	line = json.loads('{"noteList": [], "eventList": [], "id": ' + str(line_count) + '}')
 	line["eventList"] = event
-	line["noteList"] = notes
+	line["noteList"] = note
 	data["judgeLineList"].append(line)
 #print(json.dumps(data, sort_keys=True, indent=4, separators=(', ', ': ')))
 print(json.dumps(data))
